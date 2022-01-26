@@ -1,0 +1,81 @@
+syms x
+f=@(x) x^3-4*x^2+12;%exp(-x);%funcion de la cual se calcula la derivada
+t=0.5;%punto donde se calcula
+op='b';%tipo de diferencia
+p=linspace(0,1,10);
+h=0.1111;
+n=length(p);
+d=3;%derivada escogida 
+try
+    for i=1:n
+    k(i)=Diferenciacion_centrada(f,i,op,d,h);
+    end
+if d==1
+    switch op
+    case 'a'%derivada hacia adelante
+    fprintf('1 Derivada aproximada-metodo hacia adelante %d\n',k);
+    case 'b'%derivada hacia atras
+        fprintf('1 Derivada aproximada-metodo hacia atras %d\n',k);
+    case'c'%derivada centrada
+        fprintf('1 Derivada aproximada-metodo centrado %d \n',k);
+    end
+end
+if d==2
+switch op
+    case 'a'%derivada hacia adelante
+        fprintf('2ª Derivada aproximada-metodo hacia adelante %d\n',k);
+    case 'b'%derivada hacia atras
+        fprintf('2ª Derivada aproximada-metodo hacia atras %d\n',k);
+    case'c'%derivada centrada
+        fprintf('2ª Derivada aproximada-metodo centrado %d \n',k);
+end
+end
+if d==3
+    switch op
+        case 'a'%derivada hacia adelante
+            fprintf('3ª Derivada aproximada-metodo hacia adelante %d\n',k);
+        case 'b'%derivada hacia atras
+            fprintf('3ª Derivada aproximada-metodo hacia atras %d\n',k);
+        case'c'%derivada centrada
+            fprintf('3ª Derivada aproximada-metodo centrado %d \n',k);
+    end
+end
+catch err
+    fprintf('error: %s\n', err.message)
+end
+%····················Graficas·······································%
+analitica=diff(f,x);%primera derivada
+hold on
+grid on
+if d==1
+    fprintf('%s\n',analitica)
+    fplot(analitica);
+    plot(k,'*');
+    xlabel('t(s)');
+    ylabel('x(m)');
+    legend('analitica','numèrica'),
+    title('Distancia contra tiempo');
+end
+if d==2 %grafica de la segunda derivada
+    aux=diff(analitica,x);%segunda derivada
+    fprintf('%s\n',aux)
+    fplot(aux);
+    plot(k,'*');
+    xlabel('t(s)');
+    ylabel('x(m)');
+    legend('analitica','numèrica'),
+    title('Distancia contra tiempo');
+end
+
+if d==3 %grafica de la tercera derivada
+    a=diff(f,x);
+    b=diff(a,x);
+    c=diff(b,x);
+    fprintf('Tercera derivada %s\n',c)
+    fplot(c);
+    plot(k,'*');
+    xlabel('t(s)');
+    ylabel('x(m)');
+    legend('analitica','numèrica'),
+    title('Distancia contra tiempo');
+end
