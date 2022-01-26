@@ -1,0 +1,64 @@
+function m= Diferenciacion_centrada(f,t,op,d,h)
+%{
+Joel Quintuna
+f: funcion de la cual se desea obtener la la derivada aproximada
+t: punto donde se calcula la derivada
+h:tamaño de paso o longitud del intervalo(entre mas pequeño mejor)
+RESPUESTA:
+m: valor aproximado de la deirvada de la funcion f en el punto t
+%}
+syms x
+if h==0
+    error('Diferencias finitas: el valor de h no puede ser cero')
+end
+xi=t;
+xi1=xi+h;
+xi2=xi1+h;
+xi3=xi2+h;
+xi4=xi3+h;
+
+
+xi_1=xi-h;
+xi_2=xi_1-h;
+xi_3=xi_2-h;
+xi_4=xi_3-h;
+if d==1
+    switch op
+        case 'a'
+            m=(-f(xi2)+4*f(xi1)-3*f(xi))/(2*h);% usando la formula de diferencias dividas se obtiene la derivada aproximada en el punto
+        case 'b'
+            m=(3*f(xi)-4*f(xi_1)+f(xi_2))/(2*h);% usando la formula de diferencias dividas se obtiene la derivada aproximada en el punto t
+        case'c'
+            m=(-f(xi2)+8*f(xi1)-8*f(xi_1)+f(xi_2))/(12*h);% usando la formula de diferencias dividas se obtiene la derivada aproximada en el punto t
+            %segunda derivada
+      
+        otherwise
+            error('Diferencias infinitas:opcion no valida')
+    end
+end
+ 
+if d==2
+    switch op
+        case 'a'
+            m=(-f(xi3)+4*f(xi2)-5*f(xi1)+2*f(xi))/(h^2);
+        case 'b'
+             m=(2*f(xi)-5*f(xi_1)+4*f(xi_2)-f(xi_3))/(h^2);
+        case 'c'
+             m=(f(xi1)-2*f(xi)+f(xi_1))/h^2;
+    otherwise
+            error('Diferencias infinitas:opcion no valida')
+    end
+end
+if d==3
+    switch op
+        case 'a'
+            m=(-3*f(xi4)+14*f(xi3)-24*f(xi2)+18*f(xi1)-5*f(xi))/(2*h^3);
+        case 'b'
+             m=(5*f(xi)-18*f(xi_1)+24*f(xi_2)-14*f(xi_3)+3*f(xi_4))/(2*h^3);
+        case 'c'
+             m=(f(xi2)-2*f(xi1)+2*f(xi_1)-f(xi_2))/2*h^3;
+    otherwise
+            error('Diferencias infinitas:opcion no valida')
+    end
+end
+end
